@@ -30,7 +30,8 @@ df$clust <- k$cluster
 df %>% count(clust)
 
 #summarize key variables - cqC4_,cqC2a1_,cqs8_,cqs9_,cqC5,cqC2b,cqB6_04,cqS7a,cqs12a
-clust_stats<-df %>% select(clust,contains('cqS10'),contains('cqC13'),discord,guilded,nitro,dg,nodg,cqC14,cqS12,cqB2,contains('cqC3'),contains('cqC4'),contains('cqS9'),contains('cqS8'),contains('cqC4'),contains('cqS8'),contains('cqS9'),contains('cqC2b'),contains('cqC2a1'),cqS7a,contains('cqS12a')) %>% group_by(clust) %>% summarise(across(everything(),coalmean))
+clust_stats<-df %>% select(clust,contains('cqS10'),contains('cqC13'),discord,guilded,nitro,dg,nodg,cqB6_04,cqC14,cqS12,cqB2,contains('cqC3'),contains('cqC4'),contains('cqS9'),contains('cqS8'),contains('cqC4'),contains('cqS8'),contains('cqS9'),contains('cqC2b'),contains('cqC2a1'),cqS7a,contains('cqS12a')) %>% group_by(clust) %>% summarise(across(everything(),coalmean))
 View(clust_stats)
 #export data frame
 write.xlsx(x=clust_stats,file='clust_stats.xlsx')
+#View(df %>% select(contains('cqs10'),contains('cqC13')) %>% summarise(across(everything(),coalmean)))
