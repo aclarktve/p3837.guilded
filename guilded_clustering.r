@@ -6,6 +6,18 @@ library(cluster)
 #load data
 setwd("C:/Work/p3837.guilded")
 
+df %>% count(clustguess)
+coal <- function(arg1){
+  return(coalesce(arg1,0))
+}
+pcts <- function(arg1,arg2,arg3){
+  arg1 %>% filter(!is.na({{arg2}})) %>% group_by({{arg2}},{{arg3}}) %>% summarise(n=n()) %>% mutate(pct=100*(n/sum(n)))}
+
+coalmean <- function(arg1){
+  #mean(coalesce(arg1,0))
+  mean(arg1,na.rm=TRUE)
+}
+
 dfc <- read_sav("guilded_client.sav")
 dfc <- dfc %>% setNames(paste0('cq', names(.)))
 dfc <- dfc %>% mutate(clustguess=case_when(
@@ -21,17 +33,7 @@ pcts(dfx,clust)
 df <- read_sav("guilded_panel.sav")
 
 
-df %>% count(clustguess)
-coal <- function(arg1){
-  return(coalesce(arg1,0))
-}
-pcts <- function(arg1,arg2,arg3){
-  arg1 %>% filter(!is.na({{arg2}})) %>% group_by({{arg2}},{{arg3}}) %>% summarise(n=n()) %>% mutate(pct=100*(n/sum(n)))}
 
-coalmean <- function(arg1){
-  #mean(coalesce(arg1,0))
-  mean(arg1,na.rm=TRUE)
-}
 df <- df %>% mutate(nitro=ifelse(cqC5==3,1,0),discord=ifelse(cqC2_03==1,1,0),guilded=ifelse(cqC2_04==1,1,0),dg=ifelse(discord+guilded==2,1,0),nodg=ifelse(discord+guilded==0,1,0))
 dfclust <- df %>% select(contains('cqS10'))#,contains('cqC13'))
 
